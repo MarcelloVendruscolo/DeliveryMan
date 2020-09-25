@@ -1,11 +1,14 @@
 #List all the packages available
 library()
 
-#List all the packages currently loaded
-search()
+#Install the DeliveryMan package
+install.packages("/Users/marcellovendruscolo/Documents/rstudio-workspace/DeliveryMan/DeliveryMan_1.1.0.tar.gz", repos = NULL, type = "source")
 
 #Load DeliveryMan package for this session
 library(DeliveryMan)
+
+#List all the packages currently loaded
+search()
 
 #Function for calculating the Manhattan distance between two given nodes
 calculateManhattanDistance <- function(current_xCoordinate, current_yCoordinate, destination_xCoordinate, destination_yCoordinate) {
