@@ -1,14 +1,7 @@
-#List all the packages available
-library()
-
-#Install the DeliveryMan package
-install.packages("/Users/marcellovendruscolo/Documents/rstudio-workspace/DeliveryMan/DeliveryMan_1.1.0.tar.gz", repos = NULL, type = "source")
+# install.packages("/DeliveryMan_1.2.0.tar.gz", repos = NULL, type = "source")
 
 #Load DeliveryMan package for this session
 library(DeliveryMan)
-
-#List all the packages currently loaded
-search()
 
 #Function for calculating the Manhattan distance between two given nodes
 calculateManhattanDistance <- function(current_xCoordinate, current_yCoordinate, destination_xCoordinate, destination_yCoordinate) {
@@ -26,13 +19,13 @@ chooseNextPackage <- function(current_xCoordinate, current_yCoordinate, packages
   nextPackage <- 0
     
   #Creating a new column for registering the Manhattan distances of each of the remaining packages
-  #Values in the Manhattan column are -1 to start with, as there is no negative Manhattan distance after calculation
+  #Values in the Manhattan column are -1 to start with, as there should be no negative Manhattan distance after their computation
   manhattanDistances <- matrix(seq(-1, -1, length.out = amount_of_packages), nrow = amount_of_packages, ncol = 1)
   packages_info <- cbind(packages_info, manhattanDistances)
   
   #Calculating the Manhattan distances of each package alternative that has not been handled yet
   for (i in 1:amount_of_packages) {
-    if (packages_info[i,5] != 2)
+    if (packages_info[i,5] != 2) #Update Manhattan Distance of those packages that have not been delivered yet
       packages_info[i,6] <- calculateManhattanDistance(current_xCoordinate, current_yCoordinate, packages_info[i,1], packages_info[i,2])
   }
   
@@ -256,11 +249,11 @@ findBestMove <- function(current_X, current_Y, destination_X, destination_Y, tra
   }
 }
 
-#trafficConditions_information: list containing the hroads and vroads matrices (e.g., trafficConditions_information$hroads and trafficConditions_information$vroads). Dimensions of matrices are <dim,dim>.
+#trafficConditions_information: List containing the hroads and vroads matrices (e.g., trafficConditions_information$hroads and trafficConditions_information$vroads). Dimensions of matrices are <dim,dim>.
 #car_information: list containing current coordinates (e.g., car_information$x and car_information$y),
 #the load of the car (car_information$load), and a variable nextMove (car_information$nextMove) that specifies the next move of the car.
 #packages_information: matrix (N, 5) containing information about the N packages to be handled. Columns indicate: x pick-up coordinate,
-#y pick-up coordinate, x drop-off coordinate, y drop-off coordinate, package status (0: not picked up, 1: carrying, 2: deliveried).
+#y pick-up coordinate, x drop-off coordinate, y drop-off coordinate, package status (0: not picked up, 1: carrying, 2: deliveried), respectively.
 myFunction <- function(trafficConditions_information, car_information, packages_information) {
   
   #Whenever the delivery man does not have a package loaded in the car, pick up the nearest package (Manhattan Distance)
